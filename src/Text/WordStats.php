@@ -20,9 +20,9 @@ class WordStats
     private $stopWords = [];
 
     /**
-     * @param mixed[] $options
+     * @param  mixed[]  $options
      */
-    public function __construct($options = []) {
+    public function __construct(array $options = []) {
         foreach ($options as $key => $value) {
             $method = 'set' . ucfirst($key);
 
@@ -40,11 +40,11 @@ class WordStats
     }
 
     /**
-     * @param string[] $words
+     * @param  string[]  $words
      *
      * @return self
      */
-    public function setStopWords($words): self {
+    public function setStopWords(array $words): self {
         $this->stopWords = $words;
 
         return $this;

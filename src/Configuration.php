@@ -12,7 +12,7 @@ use Goose\Modules\ModuleInterface;
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License 2.0
  */
 class Configuration {
-    /** @var mixed[] */
+    /** @var array */
     protected $options = [
         'language' => 'en',
         'image_min_bytes' => 4500,
@@ -32,7 +32,7 @@ class Configuration {
         ]
     ];
 
-    /** @var mixed[] */
+    /** @var array */
     protected $modules = [
         'cleaners' => [
             '\Goose\Modules\Cleaners\DocumentCleaner',
@@ -50,7 +50,7 @@ class Configuration {
     ];
 
     /**
-     * @param mixed[] $options
+     * @param  array  $options
      */
     public function __construct(array $options = []) {
         $this->options = array_replace_recursive($this->options, $options);

@@ -21,5 +21,5 @@ interface ModuleInterface {
      *
      * @return self
      */
-    public function run(Article $article);
+    public function run(Article $article): ModuleInterface;
 }

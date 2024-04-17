@@ -2,8 +2,10 @@
 
 namespace Goose;
 
+use Goose\Exceptions\MalformedURLException;
 use Goose\Utils\Helper;
 use DOMWrap\Document;
+use GuzzleHttp\Exception\GuzzleException;
 
 /**
  * Crawler
@@ -30,10 +32,11 @@ class Crawler {
     }
 
     /**
-     * @param string $url
-     * @param string|null $rawHTML
+     * @param  string  $url
+     * @param  string|null  $rawHTML
      *
      * @return Article
+     * @throws MalformedURLException|GuzzleException
      */
     public function crawl(string $url, string $rawHTML = null): ?Article {
         $article = new Article();

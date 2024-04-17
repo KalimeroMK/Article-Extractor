@@ -70,9 +70,7 @@ class ContentExtractor extends AbstractModule implements ModuleInterface {
         }
 
         $wordStats = $this->config()->getStopWords()->getStopwordCount($node->text());
-        $upscore = $wordStats->getStopWordCount() + $boostScore;
-
-        return $upscore;
+        return $wordStats->getStopWordCount() + $boostScore;
     }
 
     /**

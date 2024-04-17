@@ -2,6 +2,9 @@
 
 namespace Goose;
 
+use Goose\Exceptions\MalformedURLException;
+use GuzzleHttp\Exception\GuzzleException;
+
 /**
  * Client
  *
@@ -13,19 +16,19 @@ class Client {
     protected $config;
 
     /**
-     * @param mixed[] $config
+     * @param  array  $config
      */
-    public function __construct($config = []) {
+    public function __construct(array $config = []) {
         $this->config = new Configuration($config);
     }
 
     /**
      * @param string $name
-     * @param mixed[] $arguments
+     * @param  array  $arguments
      *
      * @return mixed
      */
-    public function __call(string $name, $arguments) {
+    public function __call(string $name, array $arguments) {
         if (method_exists($this->config, $name)) {
             return call_user_func_array(array($this->config, $name), $arguments);
         }
@@ -34,15 +37,15 @@ class Client {
     }
 
     /**
-     * @param string $url
-     * @param string $rawHTML
+     * @param  string  $url
+     * @param  string|null  $rawHTML
      *
      * @return Article
+     * @throws MalformedURLException
+     * @throws GuzzleException
      */
     public function extractContent(string $url, string $rawHTML = null): ?Article {
         $crawler = new Crawler($this->config);
-        $article = $crawler->crawl($url, $rawHTML);
-
-        return $article;
+        return $crawler->crawl($url, $rawHTML);
     }
 }

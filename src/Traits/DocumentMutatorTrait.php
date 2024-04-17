@@ -15,7 +15,7 @@ trait DocumentMutatorTrait {
     protected $document;
 
     /**
-     * @param Document $document
+     * @param  Document|null  $document
      *
      * @return Document|null
      */

@@ -12,13 +12,14 @@ use Goose\Exceptions\MalformedURLException;
  */
 class Helper {
     /**
-     * @todo Re-factor result into class
-     *
-     * @param string $urlToCrawl
+     * @param  string  $urlToCrawl
      *
      * @return object
+     * @throws MalformedURLException
+     * @todo Re-factor result into class
+     *
      */
-    public static function getCleanedUrl($urlToCrawl) {
+    public static function getCleanedUrl(string $urlToCrawl) {
         $parts = parse_url($urlToCrawl);
 
         if ($parts === false) {
@@ -38,11 +39,12 @@ class Helper {
     }
 
     /**
-     * @param string $text
+     * @param  string  $text
      *
      * @return string
      */
-    public static function textNormalise($text) {
+    public static function textNormalise(string $text): string
+    {
         $text = preg_replace('@[\n\r\s\t]+@', " ", $text);
 
         return trim($text);

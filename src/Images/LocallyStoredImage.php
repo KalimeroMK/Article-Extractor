@@ -10,9 +10,9 @@ namespace Goose\Images;
  */
 class LocallyStoredImage {
     /**
-     * @param mixed[] $options
+     * @param  mixed[]  $options
      */
-    public function __construct($options = []) {
+    public function __construct(array $options = []) {
         foreach ($options as $key => $value) {
             $method = 'set' . ucfirst($key);
 

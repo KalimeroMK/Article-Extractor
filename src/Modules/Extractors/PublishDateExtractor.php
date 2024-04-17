@@ -2,6 +2,7 @@
 
 namespace Goose\Modules\Extractors;
 
+use DateTime;
 use Goose\Article;
 use Goose\Traits\ArticleMutatorTrait;
 use Goose\Modules\{AbstractModule, ModuleInterface};
@@ -44,12 +45,12 @@ class PublishDateExtractor extends AbstractModule implements ModuleInterface {
     }
 
     /**
-     * @return \DateTime|null
+     * @return DateTime|null
      */
-    private function getDateFromURL(): ?\DateTime {
+    private function getDateFromURL(): ?DateTime {
         // Determine date based on URL
         if (preg_match('@(?:[\d]{4})(?<delimiter>[/-])(?:[\d]{2})\k<delimiter>(?:[\d]{2})@U', $this->article()->getFinalUrl(), $matches)) {
-            $dt = \DateTime::createFromFormat('Y' . $matches['delimiter'] . 'm' . $matches['delimiter'] . 'd', $matches[0]);
+            $dt = DateTime::createFromFormat('Y' . $matches['delimiter'] . 'm' . $matches['delimiter'] . 'd', $matches[0]);
             $dt->setTime(0, 0, 0);
 
             if ($dt === false) {
@@ -69,11 +70,11 @@ class PublishDateExtractor extends AbstractModule implements ModuleInterface {
      *
      * Checks HTML tags (e.g. <meta>, <time>, etc.) and JSON-LD.
      *
-     * @return \DateTime|null
+     * @return DateTime|null
      *
      * @see https://schema.org/datePublished
      */
-    private function getDateFromSchemaOrg(): ?\DateTime {
+    private function getDateFromSchemaOrg(): ?DateTime {
         $dt = null;
 
         // Check for HTML tags (<meta>, <time>, etc.)
@@ -83,11 +84,11 @@ class PublishDateExtractor extends AbstractModule implements ModuleInterface {
         foreach ($nodes as $node) {
             try {
                 if ($node->hasAttribute('datetime')) {
-                    $dt = new \DateTime($node->getAttribute('datetime'));
+                    $dt = new DateTime($node->getAttribute('datetime'));
                     break;
                 }
                 if ($node->hasAttribute('content')) {
-                    $dt = new \DateTime($node->getAttribute('content'));
+                    $dt = new DateTime($node->getAttribute('content'));
                     break;
                 }
             }
@@ -120,7 +121,7 @@ class PublishDateExtractor extends AbstractModule implements ModuleInterface {
                         $date = @$graphData['datePublished'];
 
                         try {
-                            $dt = new \DateTime($date);
+                            $dt = new DateTime($date);
                         } catch (\Error $ex) {
                             // Do nothing here in case the node has unrecognizable date information.
                         }
@@ -133,7 +134,7 @@ class PublishDateExtractor extends AbstractModule implements ModuleInterface {
                         : $json->datePublished;
 
                     try {
-                        $dt = new \DateTime($date);
+                        $dt = new DateTime($date);
                     } catch (\Error $ex) {
                         // Do nothing here in case the node has unrecognizable date information.
                     }
@@ -152,12 +153,12 @@ class PublishDateExtractor extends AbstractModule implements ModuleInterface {
     /**
      * Check for and determine dates based on Dublin Core standards.
      *
-     * @return \DateTime|null
+     * @return DateTime|null
      *
      * @see http://dublincore.org/documents/dcmi-terms/#elements-date
      * @see http://dublincore.org/documents/2000/07/16/usageguide/qualified-html.shtml
      */
-    private function getDateFromDublinCore(): ?\DateTime {
+    private function getDateFromDublinCore(): ?DateTime {
         $dt = null;
         $nodes = $this->article()->getRawDoc()->find('*[name="dc.date"], *[name="dc.date.issued"], *[name="DC.date.issued"]');
 
@@ -165,7 +166,7 @@ class PublishDateExtractor extends AbstractModule implements ModuleInterface {
         foreach ($nodes as $node) {
             try {
                 if ($node->hasAttribute('content')) {
-                    $dt = new \DateTime($node->getAttribute('content'));
+                    $dt = new DateTime($node->getAttribute('content'));
                     break;
                 }
             }
@@ -184,22 +185,22 @@ class PublishDateExtractor extends AbstractModule implements ModuleInterface {
     /**
      * Check for and determine dates based on OpenGraph standards.
      *
-     * @return \DateTime|null
+     * @return DateTime|null
      *
      * @see http://ogp.me/
      * @see http://ogp.me/#type_article
      */
-    private function getDateFromOpenGraph(): ?\DateTime {
+    private function getDateFromOpenGraph(): ?DateTime {
         $dt = null;
 
         $og_data = $this->article()->getOpenGraph();
 
         try {
             if (isset($og_data['published_time'])) {
-                $dt = new \DateTime($og_data['published_time']);
+                $dt = new DateTime($og_data['published_time']);
             }
             if (is_null($dt) && isset($og_data['pubdate'])) {
-                $dt = new \DateTime($og_data['pubdate']);
+                $dt = new DateTime($og_data['pubdate']);
             }
         }
         catch (\Exception $e) {
@@ -214,13 +215,13 @@ class PublishDateExtractor extends AbstractModule implements ModuleInterface {
      *
      * Checks JSON-LD, <meta> tags and parsely-page.
      *
-     * @return \DateTime|null
+     * @return DateTime|null
      *
      * @see https://www.parsely.com/help/integration/jsonld/
      * @see https://www.parsely.com/help/integration/metatags/
      * @see https://www.parsely.com/help/integration/ppage/
      */
-    private function getDateFromParsely(): ?\DateTime {
+    private function getDateFromParsely(): ?DateTime {
         $dt = null;
 
         // JSON-LD
@@ -235,7 +236,7 @@ class PublishDateExtractor extends AbstractModule implements ModuleInterface {
                         ? array_shift($json->dateCreated)
                         : $json->dateCreated;
 
-                    $dt = new \DateTime($date);
+                    $dt = new DateTime($date);
                     break;
                 }
             }
@@ -255,7 +256,7 @@ class PublishDateExtractor extends AbstractModule implements ModuleInterface {
         foreach ($nodes as $node) {
             try {
                 if ($node->hasAttribute('content')) {
-                    $dt = new \DateTime($node->getAttribute('content'));
+                    $dt = new DateTime($node->getAttribute('content'));
                     break;
                 }
             }
@@ -277,7 +278,7 @@ class PublishDateExtractor extends AbstractModule implements ModuleInterface {
                 if ($node->hasAttribute('content')) {
                     $json = json_decode($node->getAttribute('content'));
                     if (isset($json->pub_date)) {
-                        $dt = new \DateTime($json->pub_date);
+                        $dt = new DateTime($json->pub_date);
                         break;
                     }
                 }

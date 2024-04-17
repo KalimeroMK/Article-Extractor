@@ -4,6 +4,7 @@ namespace Goose;
 
 use Goose\Images\Image;
 use DOMWrap\{Element, Document};
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Article
@@ -20,7 +21,7 @@ class Article {
     protected $language;
 
     /**
-     * @param string $language
+     * @param  string|null  $language
      *
      * @return self
      */
@@ -66,7 +67,7 @@ class Article {
     protected $title;
 
     /**
-     * @param string $title
+     * @param  string|null  $title
      *
      * @return self
      */
@@ -90,7 +91,7 @@ class Article {
     protected $cleanedArticleText;
 
     /**
-     * @param string $cleanedArticleText
+     * @param  string|null  $cleanedArticleText
      *
      * @return self
      */
@@ -113,7 +114,7 @@ class Article {
     protected $htmlArticle;
 
     /**
-     * @param string $htmlArticle
+     * @param  string|null  $htmlArticle
      *
      * @return self
      */
@@ -136,7 +137,7 @@ class Article {
     protected $metaDescription;
 
     /**
-     * @param string $metaDescription
+     * @param  string|null  $metaDescription
      *
      * @return self
      */
@@ -159,7 +160,7 @@ class Article {
     protected $metaKeywords;
 
     /**
-     * @param string $metaKeywords
+     * @param  string|null  $metaKeywords
      *
      * @return self
      */
@@ -182,7 +183,7 @@ class Article {
     protected $canonicalLink;
 
     /**
-     * @param string $canonicalLink
+     * @param  string|null  $canonicalLink
      *
      * @return self
      */
@@ -205,7 +206,7 @@ class Article {
     protected $domain;
 
     /**
-     * @param string $domain
+     * @param  string|null  $domain
      *
      * @return self
      */
@@ -367,7 +368,7 @@ class Article {
     protected $finalUrl;
 
     /**
-     * @param string $finalUrl
+     * @param  string|null  $finalUrl
      *
      * @return self
      */
@@ -390,7 +391,7 @@ class Article {
     protected $linkhash;
 
     /**
-     * @param string $linkhash
+     * @param  string|null  $linkhash
      *
      * @return self
      */
@@ -413,7 +414,7 @@ class Article {
     protected $rawHtml;
 
     /**
-     * @param string $rawHtml
+     * @param  string|null  $rawHtml
      *
      * @return self
      */
@@ -478,23 +479,23 @@ class Article {
     /**
      * Original psr7 response object
      *
-     * @var \Psr\Http\Message\ResponseInterface
+     * @var ResponseInterface
      */
     protected $rawResponse;
 
     /**
-     * @param \Psr\Http\Message\ResponseInterface|null $rawResponse
+     * @param ResponseInterface|null $rawResponse
      *
      * @return self
      */
-    public function setRawResponse(\Psr\Http\Message\ResponseInterface $rawResponse): self {
+    public function setRawResponse(ResponseInterface $rawResponse): self {
         $this->rawResponse = $rawResponse;
 
         return $this;
     }
 
-    /** @return \Psr\Http\Message\ResponseInterface */
-    public function getRawResponse(): \Psr\Http\Message\ResponseInterface {
+    /** @return ResponseInterface */
+    public function getRawResponse(): ResponseInterface {
         return $this->rawResponse;
     }
 
@@ -552,7 +553,7 @@ class Article {
     protected $openGraphData;
 
     /**
-     * @param string $openGraphData
+     * @param  string|null  $openGraphData
      *
      * @return self
      */

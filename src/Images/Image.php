@@ -12,9 +12,9 @@ use DOMWrap\Element;
  */
 class Image {
     /**
-     * @param mixed[] $options
+     * @param  array  $options
      */
-    public function __construct($options = []) {
+    public function __construct(array $options = []) {
         foreach ($options as $key => $value) {
             $method = 'set' . ucfirst($key);
 

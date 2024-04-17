@@ -115,9 +115,7 @@ class MetaExtractor extends AbstractModule implements ModuleInterface {
         }
 
         // Rebuild the title
-        $title = trim(implode(' ', $titleWords));
-
-        return $title;
+        return trim(implode(' ', $titleWords));
     }
 
     /**

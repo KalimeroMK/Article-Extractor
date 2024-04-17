@@ -59,10 +59,6 @@ class OutputFormatter extends AbstractModule implements ModuleInterface {
      * @return string
      */
     private function convertToText(Element $topNode): string {
-        if (empty($topNode)) {
-            return '';
-        }
-
         $list = [];
         foreach ($topNode->contents() as $child) {
             $list[] = trim($child->text());
@@ -96,10 +92,6 @@ class OutputFormatter extends AbstractModule implements ModuleInterface {
      * @return string
      */
     private function convertToHtml(Element $topNode): string {
-        if (empty($topNode)) {
-            return '';
-        }
-
         return $topNode->ownerDocument->saveHTML($topNode);
     }
 

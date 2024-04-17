@@ -15,7 +15,7 @@ trait ArticleMutatorTrait {
     protected $article;
 
     /**
-     * @param Article $article
+     * @param  Article|null  $article
      *
      * @return Article
      */

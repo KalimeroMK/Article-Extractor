@@ -19,7 +19,7 @@ class ImageUtils {
      * @return object|null
      */
     public static function getImageDimensions(string $filePath): ?\stdClass {
-        list($width, $height, $type) = getimagesize($filePath);
+        [$width, $height, $type] = getimagesize($filePath);
 
         if ($type === null) {
             return null;
@@ -36,9 +36,9 @@ class ImageUtils {
      * Writes an image src http string to disk as a temporary file and returns the LocallyStoredImage object that has the info you should need
      * on the image
      *
-     * @param string[] $imageSrcs
-     * @param bool $returnAll
-     * @param Configuration $config
+     * @param  string[]  $imageSrcs
+     * @param  bool  $returnAll
+     * @param  Configuration  $config
      *
      * @return LocallyStoredImage[]
      */
@@ -74,7 +74,7 @@ class ImageUtils {
     }
 
     /**
-     * @param object $imageDetails
+     * @param  \stdClass  $imageDetails
      *
      * @return string
      */
@@ -86,9 +86,7 @@ class ImageUtils {
         ];
 
         return (
-            isset($extensions[$imageDetails->mime])
-            ? $extensions[$imageDetails->mime]
-            : 'NA'
+            $extensions[$imageDetails->mime] ?? 'NA'
         );
     }
 

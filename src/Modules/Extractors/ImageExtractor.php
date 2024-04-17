@@ -165,7 +165,7 @@ class ImageExtractor extends AbstractModule implements ModuleInterface {
      * @return object|null
      */
     private function getDepthLevel(Element $node, int $parentDepth, int $siblingDepth): ?\stdClass {
-        if (is_null($node) || !($node->parent() instanceof Element)) {
+        if (!($node->parent() instanceof Element)) {
             return null;
         }
 
@@ -201,11 +201,11 @@ class ImageExtractor extends AbstractModule implements ModuleInterface {
      * we'll also make sure to try and weed out banner type ad blocks that have big widths and small heights or vice versa
      * so if the image is 3rd found in the dom it's sequence score would be 1 / 3 = .33 * diff in area from the first image
      *
-     * @param LocallyStoredImage[] $locallyStoredImages
+     * @param  LocallyStoredImage[]  $locallyStoredImages
      *
      * @return LocallyStoredImage[]
      */
-    private function scoreLocalImages($locallyStoredImages): array {
+    private function scoreLocalImages(array $locallyStoredImages): array {
         $results = [];
         $i = 1;
         $initialArea = 0;
@@ -266,7 +266,7 @@ class ImageExtractor extends AbstractModule implements ModuleInterface {
     /**
      * takes a list of image elements and filters out the ones with bad names
      *
-     * @param \DOMWrap\NodeList $images
+     * @param  NodeList  $images
      *
      * @return Element[]
      */
@@ -315,9 +315,7 @@ class ImageExtractor extends AbstractModule implements ModuleInterface {
     private function getImageCandidates(Element $node): array {
         $images = $node->find('img');
         $filteredImages = $this->filterBadNames($images);
-        $goodImages = $this->findImagesThatPassByteSizeTest($filteredImages);
-
-        return $goodImages;
+        return $this->findImagesThatPassByteSizeTest($filteredImages);
     }
 
     /**
@@ -340,7 +338,7 @@ class ImageExtractor extends AbstractModule implements ModuleInterface {
 
         $localImages = $this->getLocallyStoredImages($imageUrls, true);
 
-        $results = array_filter($localImages, function($localImage) use($images, $i) {
+        return array_filter($localImages, function($localImage) use($images, $i) {
             $image = $images[$i++];
 
             $bytes = $localImage->getBytes();
@@ -353,8 +351,6 @@ class ImageExtractor extends AbstractModule implements ModuleInterface {
 
             return true;
         });
-
-        return $results;
     }
 
     /**
@@ -452,12 +448,12 @@ class ImageExtractor extends AbstractModule implements ModuleInterface {
     }
 
     /**
-     * @param string[] $imageSrcs
+     * @param  string[]  $imageSrcs
      * @param bool $returnAll
      *
      * @return LocallyStoredImage[]
      */
-    private function getLocallyStoredImages($imageSrcs, bool $returnAll = false): array {
+    private function getLocallyStoredImages(array $imageSrcs, bool $returnAll = false): array {
         return ImageUtils::storeImagesToLocalFile($imageSrcs, $returnAll, $this->config());
     }
 
@@ -581,7 +577,7 @@ class ImageExtractor extends AbstractModule implements ModuleInterface {
             $lines = explode("\n", str_replace(["\r\n", "\r"], "\n", file_get_contents($file)));
 
             foreach ($lines as $line) {
-                list($domain, $css) = explode('^', $line);
+                [$domain, $css] = explode('^', $line);
 
                 self::$CUSTOM_SITE_MAPPING[$domain] = $css;
             }
