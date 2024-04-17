@@ -1,8 +1,8 @@
-# PHP Goose - Article Extractor
+# Article Extractor
 
 ## Note
 
-This repository has been archived as of 2023-09-05.
+This repository based on PHP Goose - Article Extractor
 
 ## Intro
 
